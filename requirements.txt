@@ -1,2 +1,1 @@
-streamlit_notepad
-streamlit_notepad
+streamlit
