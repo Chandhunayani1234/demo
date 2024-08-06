@@ -1,4 +1,3 @@
-#python
 import streamlit as st
 import time
 
@@ -12,24 +11,30 @@ user_input = st.text_area("Enter text here:")
 start_button = st.button('Start Repeating')
 stop_button = st.button('Stop Repeating')
 
-# Session state to manage the repeating text
+# Initialize session state
 if 'repeat' not in st.session_state:
     st.session_state.repeat = False
+
+# Function to repeat text
+def repeat_text():
+    while st.session_state.repeat:
+        st.write(user_input)
+        time.sleep(2)  # Adjust the interval as needed
+        # Trigger a rerun by modifying session state
+        st.session_state.repeat = not st.session_state.repeat
+        st.session_state.repeat = not st.session_state.repeat
 
 # Start repeating text
 if start_button:
     st.session_state.repeat = True
     st.write("Repeating started...")
-    
-    while st.session_state.repeat:
-        st.write(user_input)
-        time.sleep(2)  # Adjust the interval as needed
-        # To allow UI to update
-        st.experimental_rerun()
+    repeat_text()
 
 # Stop repeating text
 if stop_button:
     st.session_state.repeat = False
     st.write("Repeating stopped.")
 
-
+# Call the repeat_text function if the repeat flag is set
+if st.session_state.repeat:
+    repeat_text()
